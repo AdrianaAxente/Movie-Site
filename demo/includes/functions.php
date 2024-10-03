@@ -24,3 +24,42 @@ function find_movie_by_id($movie)
         return false;
     }
 }
+
+function find_movie_by_title($movie)
+{
+    if (!isset($_GET['s'])) return false;
+    if (stripos($movie['title'], $_GET['s']) === false) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function find_movie_by_genre($movie)
+{
+    if (!isset($_GET['genre'])) return false;
+    if (in_array($_GET['genre'], $movie['genres'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function check_poster($posterUrl)
+{
+    $ch = curl_init($posterUrl);
+
+    curl_setopt($ch, CURLOPT_NOBODY, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+
+    curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($http_code == 200) {
+        return $posterUrl;
+    } else {
+        return './assets/no-image.png';
+    }
+}

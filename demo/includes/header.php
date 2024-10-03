@@ -13,9 +13,11 @@
     <?php include('functions.php') ?>
     <?php
     if (!in_array(basename($_SERVER['PHP_SELF']), array('contact.php', 'index.php'))) {
-        $movies = json_decode(file_get_contents('./assets/movies-list-db.json'), true)['movies'];
-        $genres = json_decode(file_get_contents('./assets/movies-list-db.json'), true)['genres'];
-    } ?>
+        $moviesData = json_decode(file_get_contents('./assets/movies-list-db.json'), true);
+        $movies = $moviesData['movies'];
+        $genres = $moviesData['genres'];
+    }
+    ?>
     <nav class="navbar navbar-expand-lg bg-body-tertiary header-navbar">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,10 +40,24 @@
                             'permalink' => 'movies.php'
                         ),
                         array(
+                            'name' => 'Genres',
+                            'permalink' => 'genres.php'
+                        ),
+                        array(
                             'name' => 'Contact',
                             'permalink' => 'contact.php'
                         ),
                     );
+
+                    $favorites = isset($_COOKIE['favorite_movies']) ? json_decode($_COOKIE['favorite_movies'], true) : [];
+                    $has_favorites = !empty($favorites);
+
+                    if ($has_favorites) {
+                        $menu_items[] = array(
+                            'name' => 'Favorites',
+                            'permalink' => 'movies.php?page=favorites'
+                        );
+                    }
                     foreach ($menu_items as $menu_item) { ?>
                         <li class="nav-item">
                             <a class="nav-link <?php if (basename($_SERVER['PHP_SELF']) === $menu_item['permalink']) echo 'active'; ?>"
@@ -49,7 +65,8 @@
                                 href="/demo/<?php echo $menu_item['permalink']; ?>">
                                 <?php echo $menu_item['name']; ?>
                             </a>
-                        <?php } ?>
+                        </li>
+                    <?php } ?>
                 </ul>
                 <?php require('./includes/search-form.php') ?>
             </div>
