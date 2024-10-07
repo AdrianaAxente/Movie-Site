@@ -20,7 +20,6 @@ h1 {
     width: 100%;
 }
 
-/* Title styling */
 .contact-container h2 {
     font-size: 24px;
     margin-bottom: 20px;
@@ -28,14 +27,13 @@ h1 {
     color: #333;
 }
 
-/* Individual contact item */
 .contact-item {
     margin-bottom: 15px;
     font-size: 16px;
     color: #555;
 }
 
-/* Style for the email link */
+
 .contact-item a {
     color: #0066cc;
     text-decoration: none;
@@ -47,4 +45,27 @@ h1 {
 
 .header-navbar ul li a.active{
     color: rgb(41, 41, 177) !important;
+}
+
+
+.star-rating {
+    direction: rtl;
+    display: inline-block;
+    padding: 20px;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 2em;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input[type="radio"]:checked ~ label {
+    color: #f5b301;
 }
